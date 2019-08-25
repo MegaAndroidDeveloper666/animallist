@@ -16,11 +16,16 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import ru.markstudio.catdog.data.Animal;
-import ru.markstudio.catdog.data.QueryResponse;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     private ArrayList<Animal> data;
+
+    interface AnimalClickListener {
+        void onAnimalClick(int position);
+    }
+
+    private AnimalClickListener animalClickListener;
 
     public Adapter(ArrayList<Animal> data) {
         this.data = data;
@@ -42,8 +47,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         return data.size();
     }
 
-    public void setData(ArrayList<Animal> data) {
+    public void setData(ArrayList<Animal> data, AnimalClickListener animalClickListener) {
         this.data = data;
+        this.animalClickListener = animalClickListener;
         notifyDataSetChanged();
     }
 
@@ -60,6 +66,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
 
         public void bind(int position) {
+            itemView.setOnClickListener(view -> animalClickListener.onAnimalClick(position));
             Animal animal = data.get(position);
             tvText.setText(animal.getTitle());
             Picasso.get()

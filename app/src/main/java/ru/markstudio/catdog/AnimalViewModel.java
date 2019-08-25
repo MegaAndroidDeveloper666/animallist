@@ -3,13 +3,11 @@ package ru.markstudio.catdog;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import org.reactivestreams.Subscription;
+import java.util.ArrayList;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import ru.markstudio.catdog.data.QueryResponse;
+import ru.markstudio.catdog.data.Animal;
 
 public class AnimalViewModel extends ViewModel {
 
@@ -17,14 +15,16 @@ public class AnimalViewModel extends ViewModel {
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private MutableLiveData<Boolean> showLoader = new MutableLiveData<>();
-    private MutableLiveData<QueryResponse> animalData = new MutableLiveData<>();
+    private MutableLiveData<Boolean> animalDataUpdated = new MutableLiveData<>();
+
+    private ArrayList<Animal> data = new ArrayList<>();
 
     public MutableLiveData<Boolean> getShowLoader() {
         return showLoader;
     }
 
-    public MutableLiveData<QueryResponse> getAnimalData() {
-        return animalData;
+    public MutableLiveData<Boolean> getAnimalDataUpdated() {
+        return animalDataUpdated;
     }
 
     @Override
@@ -42,12 +42,18 @@ public class AnimalViewModel extends ViewModel {
                         .doOnComplete(() -> showLoader.postValue(false))
                         .doOnError(throwable -> {
                             showLoader.postValue(false);
-                            animalData.postValue(null);
+                            animalDataUpdated.postValue(false);
                         })
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(queryResponse -> animalData.postValue(queryResponse))
+                        .subscribe(queryResponse -> {
+                            data = queryResponse.getData();
+                            animalDataUpdated.postValue(true);
+                        })
 
         );
     }
 
+    public ArrayList<Animal> getData() {
+        return data;
+    }
 }
