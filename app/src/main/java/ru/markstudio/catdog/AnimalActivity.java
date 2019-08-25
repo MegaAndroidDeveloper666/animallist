@@ -6,6 +6,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -14,11 +15,13 @@ import ru.markstudio.catdog.data.AnimalType;
 
 public class AnimalActivity extends AppCompatActivity {
 
-    private TabLayout tlAnimals;
     private static final String SELECTED_TAB = "tab";
+    private TabLayout tlAnimals;
+    private AnimalViewModel animalViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        animalViewModel = ViewModelProviders.of(AnimalActivity.this).get(AnimalViewModel.class);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cat_dog);
 
@@ -29,6 +32,7 @@ public class AnimalActivity extends AppCompatActivity {
             tab.setText(type.getTitle());
             tab.setTag(type.getQuery());
             tlAnimals.addTab(tab);
+            animalViewModel.initAnimal(type.getQuery());
         }
 
         if (savedInstanceState != null) {
@@ -91,5 +95,9 @@ public class AnimalActivity extends AppCompatActivity {
 
     public void showTabs(boolean visible) {
         tlAnimals.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    public AnimalViewModel getAnimalViewModel() {
+        return animalViewModel;
     }
 }

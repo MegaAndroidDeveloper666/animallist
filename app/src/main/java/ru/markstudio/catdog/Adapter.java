@@ -27,10 +27,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     private AnimalClickListener animalClickListener;
 
-    public Adapter(ArrayList<Animal> data) {
-        this.data = data;
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

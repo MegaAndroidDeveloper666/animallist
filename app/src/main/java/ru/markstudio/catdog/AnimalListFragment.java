@@ -11,7 +11,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +25,7 @@ public class AnimalListFragment extends Fragment {
     private static final String SCROLL = "scroll";
     private AnimalType animalType;
     private AnimalViewModel animalViewModel;
-    private Adapter adapter;
+    private Adapter adapter = new Adapter();
     private RecyclerView rvAnimals;
     private ProgressBar pbLoading;
 
@@ -47,49 +46,49 @@ public class AnimalListFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        animalViewModel = ViewModelProviders.of(AnimalListFragment.this).get(AnimalViewModel.class);
-        animalViewModel.getShowLoader().observe(AnimalListFragment.this, loading -> pbLoading.setVisibility(loading ? View.VISIBLE : View.GONE));
+        animalViewModel = ((AnimalActivity) getActivity()).getAnimalViewModel();
+        animalViewModel.getShowLoader(getArguments().getString(ANIMAL_TYPE)).observe(AnimalListFragment.this, loading -> pbLoading.setVisibility(loading ? View.VISIBLE : View.GONE));
         animalViewModel.getAnimalDataUpdated().observe(AnimalListFragment.this, this::handleData);
     }
 
     private void handleData(Boolean success) {
         if (success) {
-            ArrayList<Animal> data = animalViewModel.getData();
-            adapter.setData(data, position -> ((AnimalActivity) getActivity()).showAnimalFragment(data.get(position)));
+            setData();
         } else {
             Toast.makeText(getContext(), "Произошла ошибка при загрузке!", Toast.LENGTH_LONG).show();
         }
     }
 
+    private void setData() {
+        ArrayList<Animal> data = animalViewModel.getData(getArguments().getString(ANIMAL_TYPE));
+        adapter.setData(data, position -> ((AnimalActivity) getActivity()).showAnimalFragment(data.get(position)));
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initViews(view);
         animalType = AnimalType.getByQuery(getArguments().getString(ANIMAL_TYPE));
+        initViews(view);
         animalViewModel.requestAnimals(animalType.getQuery());
-
-        if (savedInstanceState != null) {
-            rvAnimals.scrollTo(0, savedInstanceState.getInt(SCROLL, 0));
-        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
         ((AnimalActivity) getActivity()).changeTabsVisibility();
+        rvAnimals.scrollTo(0, animalViewModel.getScrollOffset(animalType.getQuery()));
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        int top = rvAnimals.computeVerticalScrollOffset();
-        outState.putInt(SCROLL, top);
-        super.onSaveInstanceState(outState);
+    public void onPause() {
+        animalViewModel.setScrollOffset(animalType.getQuery(), rvAnimals.computeVerticalScrollOffset());
+        super.onPause();
     }
 
     private void initViews(View view) {
         rvAnimals = view.findViewById(R.id.rvAnimals);
         rvAnimals.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-        adapter = new Adapter(animalViewModel.getData());
+        setData();
         rvAnimals.setAdapter(adapter);
         pbLoading = view.findViewById(R.id.pbLoading);
     }

@@ -2,7 +2,7 @@ package ru.markstudio.catdog.data;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Animal {
+public class Animal{
 
     @SerializedName("url")
     private String pictureUrl;
