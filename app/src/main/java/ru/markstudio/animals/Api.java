@@ -1,10 +1,10 @@
-package ru.markstudio.catdog;
+package ru.markstudio.animals;
 
 
 import io.reactivex.Flowable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import ru.markstudio.catdog.data.QueryResponse;
+import ru.markstudio.animals.data.QueryResponse;
 
 public interface Api {
 

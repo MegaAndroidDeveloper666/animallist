@@ -1,4 +1,4 @@
-package ru.markstudio.catdog;
+package ru.markstudio.animals;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import ru.markstudio.catdog.data.Animal;
+import ru.markstudio.animals.data.Animal;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 

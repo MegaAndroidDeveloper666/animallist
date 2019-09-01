@@ -1,4 +1,4 @@
-package ru.markstudio.catdog;
+package ru.markstudio.animals;
 
 import android.app.Application;
 import android.content.Context;

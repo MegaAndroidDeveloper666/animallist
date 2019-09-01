@@ -1,4 +1,4 @@
-package ru.markstudio.catdog;
+package ru.markstudio.animals;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.tabs.TabLayout;
 
-import ru.markstudio.catdog.data.Animal;
-import ru.markstudio.catdog.data.AnimalType;
+import ru.markstudio.animals.data.Animal;
+import ru.markstudio.animals.data.AnimalType;
 
 public class AnimalActivity extends AppCompatActivity {
 

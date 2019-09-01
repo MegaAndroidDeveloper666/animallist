@@ -1,4 +1,4 @@
-package ru.markstudio.catdog;
+package ru.markstudio.animals;
 
 import android.content.SharedPreferences;
 
@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import ru.markstudio.catdog.data.Animal;
+import ru.markstudio.animals.data.Animal;
 
 import static android.content.Context.MODE_PRIVATE;
 

@@ -1,4 +1,4 @@
-package ru.markstudio.catdog;
+package ru.markstudio.animals;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import ru.markstudio.catdog.data.Animal;
-import ru.markstudio.catdog.data.AnimalType;
+import ru.markstudio.animals.data.Animal;
+import ru.markstudio.animals.data.AnimalType;
 
 public class AnimalListFragment extends Fragment {
 
@@ -76,12 +76,12 @@ public class AnimalListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         ((AnimalActivity) getActivity()).changeTabsVisibility();
-        rvAnimals.scrollTo(0, animalViewModel.getScrollOffset(animalType.getQuery()));
+        rvAnimals.getLayoutManager().scrollToPosition(animalViewModel.getScrollOffset(animalType.getQuery()));
     }
 
     @Override
     public void onPause() {
-        animalViewModel.setScrollOffset(animalType.getQuery(), rvAnimals.computeVerticalScrollOffset());
+        animalViewModel.setScrollOffset(animalType.getQuery(), ((LinearLayoutManager)rvAnimals.getLayoutManager()).findFirstVisibleItemPosition());
         super.onPause();
     }
 

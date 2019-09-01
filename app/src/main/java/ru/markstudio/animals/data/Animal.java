@@ -1,4 +1,4 @@
-package ru.markstudio.catdog.data;
+package ru.markstudio.animals.data;
 
 import com.google.gson.annotations.SerializedName;
 

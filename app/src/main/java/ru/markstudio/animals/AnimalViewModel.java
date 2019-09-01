@@ -1,4 +1,4 @@
-package ru.markstudio.catdog;
+package ru.markstudio.animals;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import ru.markstudio.catdog.data.Animal;
+import ru.markstudio.animals.data.Animal;
 
 public class AnimalViewModel extends ViewModel {
 

@@ -1,4 +1,4 @@
-package ru.markstudio.catdog.data;
+package ru.markstudio.animals.data;
 
 public enum AnimalType {
     CAT("cat", "Котейки"),
